@@ -7,6 +7,7 @@ var fs = require('fs');
 
 var input = process.argv.splice(2);
 callRouter(input);
+logFile(input); 
 
 function callRouter(input) {
     switch(input[0]) {
@@ -90,4 +91,16 @@ function doWhatItSays() {
         var input = data.split(',');
         callRouter(input);
     })
+}
+
+function logFile(input){
+	var fileArray = fs.readFileSync("log.txt","utf8").split(':');
+	var lastLog = (fileArray[fileArray.length-2])?fileArray[fileArray.length-2]:0;
+	lastLog++;
+	//console.log(lastLog);
+	fs.appendFile("log.txt", "\n" + "<" + lastLog + ">" + input, function(err){
+		if(err){
+			console.log(err);
+		}
+	});
 }
